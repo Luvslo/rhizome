@@ -1,0 +1,30 @@
+{
+   "friendly_mobs":[
+      {
+         "dynamic":true,
+         "name":"mobs_friendly"
+      }
+   ],
+   "neutral_mobs":[
+      {
+         "dynamic":true,
+         "name":"mobs_neutral"
+      },
+      {
+         "dynamic":true,
+         "name":"mobs_human",
+         "difficulty":8
+      }
+   ],
+   "hostile_mobs":[
+      {
+         "dynamic":true,
+         "name":"mobs_hostile"
+      },
+      {
+         "dynamic":false,
+         "name":"Trogdor the Burninator",
+         "difficulty":9
+      }
+   ]
+}

@@ -1,0 +1,23 @@
+{
+   "planets":[
+      {
+         "name":"Planetor",
+         "places":[
+            {
+               "dynamic":true,
+               "name":"places_wild"
+            },
+            {
+               "dynamic":false,
+               "name":"Tipton",
+               "difficulty":-3
+            },
+            {
+               "dynamic":true,
+               "name":"places_scary",
+               "difficulty":7
+            }
+         ]
+      }
+   ]
+}
