@@ -1,30 +1,27 @@
 {
-   "friendly_mobs":[
-      {
-         "dynamic":true,
-         "name":"mobs_friendly"
+  "mobs": [
+    {
+      "name": "mobs_human",
+      "dynamic": true,
+      "hostility": "none",
+      "difficulty": 6,
+      "stats": {
+        "floorLevel": 10,
+        "ceilingLevel": 15
       }
-   ],
-   "neutral_mobs":[
-      {
-         "dynamic":true,
-         "name":"mobs_neutral"
+    },
+    {
+      "name": "Trogdor the Burninantor",
+      "dynamic": false,
+      "hostility": 3,
+      "difficulty": 9,
+      "stats": {
+        "floorLevel": 69,
+        "ceilingLevel": 420
       },
-      {
-         "dynamic":true,
-         "name":"mobs_human",
-         "difficulty":8
-      }
-   ],
-   "hostile_mobs":[
-      {
-         "dynamic":true,
-         "name":"mobs_hostile"
-      },
-      {
-         "dynamic":false,
-         "name":"Trogdor the Burninator",
-         "difficulty":9
-      }
-   ]
+      "skills": [
+
+      ]
+    },
+  ]
 }

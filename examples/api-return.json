@@ -1,0 +1,33 @@
+{
+  "stats": {
+    "hp": 100,
+    "mp": 10,
+    "level": 5
+  },
+  "event": "battle",
+  "mobStats": {
+    "level": 69,
+    "strength": "Weakened",
+    "name": "Trogdor the Burninator"
+  },
+  "turnCount": 105,
+  "location": "Forest of Grimdor",
+  "inventory": [
+    {
+      "name": "Ribs",
+      "type": "food",
+      "quantity": 10
+    },
+    {
+      "name": "Old Soiled Mattress",
+      "type": "misc",
+      "description": "Why not?",
+      "quantity": 1
+    }
+  ],
+  "equipment": {
+    "chest": {
+      "name": "Halter Top"
+    }
+  }
+}
