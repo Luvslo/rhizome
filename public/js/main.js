@@ -4,6 +4,8 @@ var inputStr = "";
 var inputPrompt = "# ";
 var inputEnabled = false;
 
+var terminal = "#terminal";
+
 $( document ).ready(function(){
 	//setting the options for the typer
     console.log( "ready!" );
@@ -12,11 +14,6 @@ $( document ).ready(function(){
     //the events start here
     $(document).on('keydown', function(e){
     	handleKeys(e.keyCode, e);
-    });
-    
-    $("#terminal").on('typer.finishedTyping', function(e){
-    	console.log("finished typing");
-    	
     });
 });
 
@@ -35,6 +32,7 @@ function handleKeys (code, e){
 			//enter
 			e.preventDefault();
 			sendInput(inputStr);
+      return;
 			break;
 		default:
 			//all other keys
@@ -51,9 +49,13 @@ function handleKeys (code, e){
 }
 
 function sendInput(text){
+  console.log("inputStr.length: " + inputStr.length);
+  if (inputStr.length == 0){
+    return;
+  }else{
+    echo(text);
+  }
 	inputStr = '';
-	append("<br><br>");
-	echo(text);
 }
 
 function erase (chars){
@@ -61,10 +63,14 @@ function erase (chars){
 	if (inputStr.length > 0){
 		//there's text to be erased
 		inputStr = inputStr.slice(0, chars);
-		$("#terminal").html($("#terminal").html().slice(0, chars));
+		$(terminal).html($(terminal).html().slice(0, chars));
 	}else{
 		//maybe blink? who knows
 	}
+}
+
+function clear (){
+  $(terminal).html("");
 }
 
 function echo (text){
@@ -73,7 +79,7 @@ function echo (text){
 }
 
 function append (text){
-	$("#terminal").append(text);
+	$(terminal).append(text);
 }
 
 function input(text){
@@ -82,6 +88,7 @@ function input(text){
 }
 
 function type(text){
+  clear();
 	totalRounds = text.split('').length - 1;
 	$.each(text.split(''), function(i, letter){
 	
@@ -89,12 +96,18 @@ function type(text){
 		setTimeout(function(){
 		
 		    //we add the letter to the container
-		    $('#terminal').html($('#terminal').html() + letter);
+		    $(terminal).html($(terminal).html() + letter);
 		    if (i == totalRounds){
-			    append("<br>" + inputPrompt);
+			    append("<br><br>" + inputPrompt);
 				inputEnabled = true;	
 		    }
 		
 		}, typeDelay*i);
 	});
+}
+
+// game specific code goes here
+
+function drawBattle(json){
+
 }
