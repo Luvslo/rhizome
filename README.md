@@ -13,3 +13,20 @@ API requests return a JSON string.
 All requests, regardless of game state, will return a `prompt` property that
 should be printed to the screen. Often, an array of `choices` will also be
 sent.
+
+## Battle Stuff
+Just some notes to remember for later.
+
+Basic stats: Strength, Defense, Intelligence, Agility
+
+Entities have "types" for initialization, each type correlates to a basic stat,
+and stats are built with modifiers based on type.
+
+HP = `(.5STR + .75DEF) * 2 + 5`
+
+MP = `INT * 2 + 3`
+
+Stats are built based on: `(1 + (DIFFICULTY / 20) + modifier) * LEVEL + RN(-1,1)`
+
+Attack Rate:
+`75 * (AGILITY / ENEMY_AGILITY) + 10`
