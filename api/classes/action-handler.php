@@ -12,7 +12,8 @@
     }
 
     public function handleAction() {
-      if($this->actionString === 'test') {
+      // A 'ping' that exists for whatever reason we need it for, I guess.
+      if($this->actionString === 'test' || $this->actionString === 'ping') {
         $this->gameData['prompt'] = 'This is a test of the Rhizome Broadcasting
         System. It does absolutely nothing.';
         $this->gameData['choices'] = array();
