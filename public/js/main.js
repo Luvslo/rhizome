@@ -1,16 +1,24 @@
+var loginStep = 0;
+
+var characterName = null;
+var controlCode = null;
+var session = null;
+var connected = false;
+
 var typeDelay = 50;
 
 var inputStr = "";
 var inputPrompt = "# ";
 var inputEnabled = false;
 
+var inputType = "text";
+
 var terminal = "#terminal";
 
 $( document ).ready(function(){
 	//setting the options for the typer
     console.log( "ready!" );
-    echo("Welcome to Rhizome, please wait while we connect to the server...");
-    
+    echo("Welcome to Rhizome! Press '1' to start", true, true);
     //the events start here
     $(document).on('keydown', function(e){
     	handleKeys(e.keyCode, e);
@@ -49,11 +57,15 @@ function handleKeys (code, e){
 }
 
 function sendInput(text){
-  console.log("inputStr.length: " + inputStr.length);
   if (inputStr.length == 0){
     return;
   }else{
-    echo(text);
+    append("<br>");
+    if (connected == false){
+      handleLogin(text);
+    }else{
+      echo(text, true, true);
+    }
   }
 	inputStr = '';
 }
@@ -73,9 +85,17 @@ function clear (){
   $(terminal).html("");
 }
 
-function echo (text){
+function echo (text, wipe, prompt){
+  if (wipe == true){clear();}
 	inputEnabled = false;
-	type(text);
+	type(text, wipe, prompt);
+  $(document).on("type.finished", function(e){
+    console.log("triggered");
+    if (prompt == true){
+      append("<br>" + inputPrompt);
+    }
+    $(document).off("type.finished");
+  });
 }
 
 function append (text){
@@ -84,11 +104,13 @@ function append (text){
 
 function input(text){
 	inputStr += text;
-	append(text);
+  //for password entry
+  if (inputType == "text"){
+    append(text);
+  }
 }
 
 function type(text){
-  clear();
 	totalRounds = text.split('').length - 1;
 	$.each(text.split(''), function(i, letter){
 	
@@ -98,7 +120,8 @@ function type(text){
 		    //we add the letter to the container
 		    $(terminal).html($(terminal).html() + letter);
 		    if (i == totalRounds){
-			    append("<br><br>" + inputPrompt);
+          append("<br>");
+          $(document).trigger("type.finished");
 				inputEnabled = true;	
 		    }
 		
@@ -106,8 +129,45 @@ function type(text){
 	});
 }
 
+function badCommand(){
+  echo ("Sorry, I don't understand that command.  Please try again.", false, true);
+}
 // game specific code goes here
 
-function drawBattle(json){
+function handleLogin(input){
+  switch (loginStep){
+    case 0:
+      if (input == "1"){
+        echo ("What is your name brave adventurer?", true, true);
+        loginStep++;
+      }else{
+        badCommand();
+      }
+      break;
+    case 1:
+      characterName = input;
+      echo ("OK " + characterName + ", what is your ship's control code?", false, true);
+      inputType = "password";
+      loginStep++;
+      break;
+    case 2:
+      controlCode = input;
+      
+      //perform connecting code here
+      
+      //"connect" for now
+      inputType = "text";
+      session = "XXX";
+      connected = true;
+      echo("You've been connected!", true, true);
+      loginStep++;
+      break;
+  }
+}
 
+function drawBattle(json){
+  clear();
+  append("You are fighting a <u>Fierce Rabbit Monster</u><br>");
+  append("-----<br>");
+  append("HP <b>100/100</b> - MP <b>100/100</b>");
 }
