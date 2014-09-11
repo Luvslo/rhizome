@@ -15,6 +15,8 @@ var inputType = "text";
 
 var terminal = "#terminal";
 
+var apiEndpoint = "/api/action.php";
+
 $( document ).ready(function(){
 	//setting the options for the typer
     console.log( "ready!" );
@@ -64,7 +66,7 @@ function sendInput(text){
     if (connected == false){
       handleLogin(text);
     }else{
-      echo(text, true, true);
+      echo (text, true, true);
     }
   }
 	inputStr = '';
@@ -153,14 +155,27 @@ function handleLogin(input){
     case 2:
       controlCode = input;
       
+      $.ajax({
+        url: apiEndpoint,
+        data: "string=login"
+      })
+      .done(function(reply) {
+        if (reply.session){
+          inputType = "text";
+          session = reply.session;
+          connected = true;
+          echo(reply.prompt, true, true);
+          loginStep++;
+        }else{
+          echo("I'm sorry, something went wrong, let's try this again.  Press '1' to get started.", false, true);
+          loginStep = 0;
+        }
+      });
+      
       //perform connecting code here
       
       //"connect" for now
-      inputType = "text";
-      session = "XXX";
-      connected = true;
-      echo("You've been connected!", true, true);
-      loginStep++;
+      
       break;
   }
 }

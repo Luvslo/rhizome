@@ -48,6 +48,7 @@
 
   // This is some return data we need on every request, so I just tack it on
   // at the end.
+  $RETURN['session']      = $GAME_DATA['session'];
   $RETURN['stats']        = $GAME_DATA['user-stats'];
   $RETURN['location']     = $GAME_DATA['location'];
   $RETURN['currentEvent'] = $GAME_DATA['current-event'];

@@ -17,16 +17,25 @@
 
     public function handleAction() {
       // A 'ping' that exists for whatever reason we need it for, I guess.
+      if ($this->actionString == "login"){
+        $this->gameData['prompt'] = "Thanks for logging in, you're now connected!";
+        $this->gameData['session'] = "XXX";
+        $this->gameData['choices'] = array();
+      }
+      
       if($this->actionString === 'test' || $this->actionString === 'ping') {
         $this->gameData['prompt'] = 'This is a test of the Rhizome Broadcasting
         System. It does absolutely nothing.';
         $this->gameData['choices'] = array();
       }
 
-      if($this->gameData['currentEvent'] === 'battle') {
-        $battle = new BattleHandler($this->gameData, $string);
-        $this->gameData = $battle->makeBattle();
+      if (isset($this->gameData['currentEvent'])){
+        if($this->gameData['currentEvent'] === 'battle') {
+          $battle = new BattleHandler($this->gameData, $string);
+          $this->gameData = $battle->makeBattle();
+        }
       }
+
 
       return $this->gameData;
     }
