@@ -1,4 +1,8 @@
 <?php
+  // Battle is broken out to its own file for sanity's sake, since it will be
+  // getting quite girthy.
+  require_once('battle-handler.php');
+
   /**
    * This class contains functions required to properly handle actions, and
    * references the needed functions and classes to handle said actions.
@@ -17,6 +21,11 @@
         $this->gameData['prompt'] = 'This is a test of the Rhizome Broadcasting
         System. It does absolutely nothing.';
         $this->gameData['choices'] = array();
+      }
+
+      if($this->gameData['currentEvent'] === 'battle') {
+        $battle = new BattleHandler($this->gameData, $string);
+        $this->gameData = $battle->makeBattle();
       }
 
       return $this->gameData;
