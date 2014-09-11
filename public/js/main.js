@@ -5,7 +5,7 @@ var controlCode = null;
 var session = null;
 var connected = false;
 
-var typeDelay = 50;
+var typeDelay = 20;
 
 var inputStr = "";
 var inputPrompt = "# ";
@@ -109,6 +109,8 @@ function input(text){
   //for password entry
   if (inputType == "text"){
     append(text);
+  }else{
+    append("*");
   }
 }
 
@@ -140,7 +142,7 @@ function handleLogin(input){
   switch (loginStep){
     case 0:
       if (input == "1"){
-        echo ("What is your name brave adventurer?", true, true);
+        echo ("What is your name, brave adventurer?", true, true);
         loginStep++;
       }else{
         badCommand();
