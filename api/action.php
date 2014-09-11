@@ -18,7 +18,7 @@
 
   if(isset($_SESSION['game-data'])) {
     // We store the game data in a properly named GAME_DATA variable.
-    $GAME_DATA = json_decode($_SESSION['game-data']);
+    $GAME_DATA = json_decode($_SESSION['game-data'], true);
 
     // Handles, as creatively described, the action.
     $actionHandler = new ActionHandler($GAME_DATA, $_GET['string']);
@@ -42,6 +42,8 @@
       'inventory' => array(),
       'turn-count' => 0
     );
+
+    $_SESSION['game-data'] = json_encode($GAME_DATA);
   }
 
   // This is some return data we need on every request, so I just tack it on

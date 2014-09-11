@@ -8,10 +8,16 @@
   class ActionHandler {
     public function __construct($gameData = array(), $string = '') {
       $this->gameData     = $gameData;
-      $this->actionString = $string;
+      $this->actionString = strtolower($string);
     }
 
     public function handleAction() {
+      if($this->actionString === 'test') {
+        $this->gameData['prompt'] = 'This is a test of the Rhizome Broadcasting
+        System. It does absolutely nothing.';
+        $this->gameData['choices'] = array();
+      }
+
       return $this->gameData;
     }
   }
