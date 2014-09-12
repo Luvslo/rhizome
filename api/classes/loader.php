@@ -1,7 +1,7 @@
 <?php
   class Loader {
     public function __construct($type) {
-      $this->file = getcwd().'../content/Base/'.$type.'.json';
+      $this->file = getcwd().'/../content/Base/'.$type.'.json';
     }
 
     public function fetchOne($id) {
