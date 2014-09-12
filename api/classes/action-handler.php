@@ -22,7 +22,7 @@
         $this->gameData['session'] = "XXX";
         $this->gameData['choices'] = array();
       }
-      
+
       if($this->actionString === 'test' || $this->actionString === 'ping') {
         $this->gameData['prompt'] = 'This is a test of the Rhizome Broadcasting
         System. It does absolutely nothing.';
@@ -32,7 +32,7 @@
       if (isset($this->gameData['currentEvent'])){
         if($this->gameData['currentEvent'] === 'battle') {
           $battle = new BattleHandler($this->gameData, $string);
-          $this->gameData = $battle->makeBattle();
+          $this->gameData = $battle->battle();
         }
       }
 
