@@ -1,0 +1,38 @@
+{
+  "adjectives":[
+    "curious",
+    "happy",
+    "upset",
+    "sponchy",
+    "old",
+    "young",
+    "smelly",
+    "wonderful",
+    "magical"
+  ],
+  "nouns":[
+    "boy",
+    "man",
+    "girl",
+    "woman",
+    "cat",
+    "dog",
+    "raccoon",
+    "wizard"
+  ],
+  "verbs":[
+    "runs",
+    "walks",
+    "approaches",
+    "hides",
+    "laughs",
+    "giggles"
+  ],
+  "wisdom":[
+    "You are what you eat, unless what you eat is marshmellows.",
+    "Be the change you want to see in the world.  If you can't do that, do dope shit.",
+    "Don't sweat the petty things, and don't pet the sweaty things.",
+    "It's not modern art unless it has a nose.",
+    "Money doesn't buy happiness, but it does buy coke."
+  ]
+}
