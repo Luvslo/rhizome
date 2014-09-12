@@ -26,12 +26,17 @@
   } else {
     // This should be where the game data is first compiled and stored (as JSON)
     $GAME_DATA = array(
+      'session' => 'XXX',
       'user-stats' => array(
-        'hp' => 420,
-        'mp' => 69
+        'level' => 2,
+        'name'  => 'Mike'
+      ),
+      'enemy-data' => array(
+        'level' => 2,
+        'name'  => 'Grimlock the Super Mage'
       ),
       'location' => 'Forest of Grimdor',
-      'current-event' => 'none',
+      'current-event' => 'battle',
       'prompt' => 'You seem to have gone nowhere so far. You should probably
       decide where to go. Where to, buck-o?',
       'choices' => array(
@@ -42,6 +47,10 @@
       'inventory' => array(),
       'turn-count' => 0
     );
+
+    // Handles, as creatively described, the action.
+    $actionHandler = new ActionHandler($GAME_DATA, $_GET['string']);
+    $GAME_DATA = $actionHandler->handleAction();
 
     $_SESSION['game-data'] = json_encode($GAME_DATA);
   }

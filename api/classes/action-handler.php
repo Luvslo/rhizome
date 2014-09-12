@@ -29,13 +29,12 @@
         $this->gameData['choices'] = array();
       }
 
-      if (isset($this->gameData['currentEvent'])){
-        if($this->gameData['currentEvent'] === 'battle') {
-          $battle = new BattleHandler($this->gameData, $string);
+      if (isset($this->gameData['current-event'])){
+        if($this->gameData['current-event'] === 'battle') {
+          $battle = new BattleHandler($this->gameData, $this->actionString);
           $this->gameData = $battle->battle();
         }
       }
-
 
       return $this->gameData;
     }
