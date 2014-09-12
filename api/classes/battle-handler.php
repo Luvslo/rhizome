@@ -7,7 +7,6 @@
 
     public function battle() {
       $this->createBattleEntities();
-      $this->
 
       return $this->actionString();
     }

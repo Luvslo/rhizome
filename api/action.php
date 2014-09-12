@@ -15,6 +15,7 @@
 
   // Base action handler. Grants access to ActionHandler class.
   require_once(getcwd().'/classes/action-handler.php');
+  require_once(getcwd().'/classes/loader.php');
 
   if(isset($_SESSION['game-data'])) {
     // We store the game data in a properly named GAME_DATA variable.
@@ -26,12 +27,13 @@
   } else {
     // This should be where the game data is first compiled and stored (as JSON)
     $GAME_DATA = array(
+      'session' => 'XXX',
       'user-stats' => array(
         'hp' => 420,
         'mp' => 69
       ),
       'location' => 'Forest of Grimdor',
-      'current-event' => 'none',
+      'current-event' => null,
       'prompt' => 'You seem to have gone nowhere so far. You should probably
       decide where to go. Where to, buck-o?',
       'choices' => array(
