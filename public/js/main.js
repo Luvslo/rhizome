@@ -10,6 +10,7 @@ var typeDelay = 20;
 var inputStr = "";
 var inputPrompt = "# ";
 var inputEnabled = false;
+var inputQueue = [];
 
 var inputType = "text";
 
@@ -66,7 +67,13 @@ function sendInput(text){
     if (connected == false){
       handleLogin(text);
     }else{
-      echo (text, true, true);
+      $.ajax({
+        url: apiEndpoint,
+        data: "string=" + text
+      })
+      .done(function(reply) {
+        echo(reply.prompt, true, true);
+      });
     }
   }
 	inputStr = '';
@@ -88,15 +95,25 @@ function clear (){
 }
 
 function echo (text, wipe, prompt){
+  inputQueue.push(text);
+  console.log("echo: iq.length: " + inputQueue.length);
   if (wipe == true){clear();}
 	inputEnabled = false;
-	type(text, wipe, prompt);
+  if (inputQueue.length <= 1){
+    type(inputQueue[0], wipe, prompt);
+  }
   $(document).on("type.finished", function(e){
-    console.log("triggered");
-    if (prompt == true){
-      append("<br>" + inputPrompt);
+    console.log("triggered: " + inputQueue.length);
+    inputQueue.pop();
+    if (inputQueue.length >= 1){
+      console.log("sending next in queue");
+      type(inputQueue[0], wipe, prompt);
+    }else{
+      if (prompt == true){
+        append("<br>" + inputPrompt);
+      }
+      $(document).off("type.finished");
     }
-    $(document).off("type.finished");
   });
 }
 
@@ -123,10 +140,11 @@ function type(text){
 		
 		    //we add the letter to the container
 		    $(terminal).html($(terminal).html() + letter);
-		    if (i == totalRounds){
+		    if (i >= totalRounds){
           append("<br>");
+          inputEnabled = true;
+          console.log("letter: " + letter);
           $(document).trigger("type.finished");
-				inputEnabled = true;	
 		    }
 		
 		}, typeDelay*i);
@@ -167,6 +185,12 @@ function handleLogin(input){
           session = reply.session;
           connected = true;
           echo(reply.prompt, true, true);
+          
+          i = 0;
+          while (i < reply.choices.length){
+            echo((i+1) + ". " + reply.choices[i]);
+            i++;
+          }
           loginStep++;
         }else{
           echo("I'm sorry, something went wrong, let's try this again.  Press '1' to get started.", false, true);

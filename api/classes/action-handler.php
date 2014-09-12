@@ -55,7 +55,7 @@
         $this->gameData['currentEvent'] = "none";
       }else{
         //this shouldn't happen, but if it does, it might as well be amusing
-        $this->gameData['prompt'] = "You walk into a very dark caverous structure with one flickering blue light in the far corner.  As you slowly approach, unsure of what to make of the situation, the smell of Cheetos and Mountain Dew strikes your nostrils sharply.  Before you can process what is happening, a horrific creature abruptly turns around and snarls at you &#39;What are you doing here human?!&#39;.  You've found an angry developer and this doesn't bode well for you.  Tough break champ.";
+        $this->gameData['prompt'] = "You walk into a very dark caverous structure with one flickering blue light in the far corner.  As you slowly approach, unsure of what to make of the situation, the smell of Cheetos and Mountain Dew strikes your nostrils sharply.  Before you can process what is happening, a horrific creature abruptly turns around and snarls at you 'What are you doing here human?!'.  You've found an angry developer and this doesn't bode well for you.  Tough break champ.";
       }
       return $this->gameData;
     }
