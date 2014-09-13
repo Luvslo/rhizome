@@ -10,7 +10,8 @@ var typeDelay = 20;
 var inputStr = "";
 var inputPrompt = "# ";
 var inputEnabled = false;
-var inputQueue = [];
+
+var line = "-----";
 
 var inputType = "text";
 
@@ -21,7 +22,7 @@ var apiEndpoint = "/api/action.php";
 $( document ).ready(function(){
 	//setting the options for the typer
     console.log( "ready!" );
-    echo("Welcome to Rhizome! Press '1' to start", true, true);
+    echo("Welcome to Rhizome! Press '1' to start", true);
     //the events start here
     $(document).on('keydown', function(e){
     	handleKeys(e.keyCode, e);
@@ -72,7 +73,7 @@ function sendInput(text){
         data: "string=" + text
       })
       .done(function(reply) {
-        echo(reply.prompt, true, true);
+        echo([reply.prompt], true);
       });
     }
   }
@@ -94,31 +95,22 @@ function clear (){
   $(terminal).html("");
 }
 
-function echo (text, wipe, prompt){
-  inputQueue.push(text);
-  console.log("echo: iq.length: " + inputQueue.length);
-  if (wipe == true){clear();}
-	inputEnabled = false;
-  if (inputQueue.length <= 1){
-    type(inputQueue[0], wipe, prompt);
+function echo (text, wipe){
+  if ($.isArray(text) === false){
+    text = [text.toString()];
   }
-  $(document).on("type.finished", function(e){
-    console.log("triggered: " + inputQueue.length);
-    inputQueue.pop();
-    if (inputQueue.length >= 1){
-      console.log("sending next in queue");
-      type(inputQueue[0], wipe, prompt);
-    }else{
-      if (prompt == true){
-        append("<br>" + inputPrompt);
-      }
-      $(document).off("type.finished");
-    }
-  });
+  if (wipe == true){clear();}
+  inputEnabled = false;
+  //this is a multi-line echo
+  while (text.length >= 1){
+    append(text.shift() + "<br>");
+  }
+  append("<br>" + inputPrompt);
 }
 
 function append (text){
 	$(terminal).append(text);
+  inputEnabled = true;
 }
 
 function input(text){
@@ -131,36 +123,30 @@ function input(text){
   }
 }
 
-function type(text){
-	totalRounds = text.split('').length - 1;
-	$.each(text.split(''), function(i, letter){
-	
-		//we add 100*i ms delay to each letter 
-		setTimeout(function(){
-		
-		    //we add the letter to the container
-		    $(terminal).html($(terminal).html() + letter);
-		    if (i >= totalRounds){
-          append("<br>");
-          inputEnabled = true;
-          console.log("letter: " + letter);
-          $(document).trigger("type.finished");
-		    }
-		
-		}, typeDelay*i);
-	});
-}
-
 function badCommand(){
   echo ("Sorry, I don't understand that command.  Please try again.", false, true);
 }
 // game specific code goes here
 
+function echoPromptChoices(prompt, choices, wipe){
+  if ($.isArray(prompt) === false){
+    prompt = [prompt.toString()];
+  }
+  i = 0;
+  prompt.push(line);
+  while (i < choices.length){
+    prompt.push((i+1) + ". " + choices[i]);
+    i++;
+  }
+  prompt.push("Q. To quit");
+  echo (prompt, wipe);
+}
+
 function handleLogin(input){
   switch (loginStep){
     case 0:
       if (input == "1"){
-        echo ("What is your name, brave adventurer?", true, true);
+        echo ("What is your name, brave adventurer?", true);
         loginStep++;
       }else{
         badCommand();
@@ -168,7 +154,7 @@ function handleLogin(input){
       break;
     case 1:
       characterName = input;
-      echo ("OK " + characterName + ", what is your ship's control code?", false, true);
+      echo ("OK " + characterName + ", what is your ship's control code?", true);
       inputType = "password";
       loginStep++;
       break;
@@ -184,16 +170,10 @@ function handleLogin(input){
           inputType = "text";
           session = reply.session;
           connected = true;
-          echo(reply.prompt, true, true);
-          
-          i = 0;
-          while (i < reply.choices.length){
-            echo((i+1) + ". " + reply.choices[i]);
-            i++;
-          }
+          echoPromptChoices(reply.prompt, reply.choices, true)
           loginStep++;
         }else{
-          echo("I'm sorry, something went wrong, let's try this again.  Press '1' to get started.", false, true);
+          echo("I'm sorry, something went wrong, let's try this again.  Press '1' to get started.", false);
           loginStep = 0;
         }
       });
@@ -208,6 +188,7 @@ function handleLogin(input){
 
 function drawBattle(json){
   clear();
+  battleArr = [];
   append("You are fighting a <u>Fierce Rabbit Monster</u><br>");
   append("-----<br>");
   append("HP <b>100/100</b> - MP <b>100/100</b>");
