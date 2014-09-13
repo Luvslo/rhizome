@@ -73,7 +73,7 @@ function sendInput(text){
         data: "string=" + text
       })
       .done(function(reply) {
-        echo([reply.prompt], true);
+        echoPromptChoices(reply.prompt, reply.choices, true)
       });
     }
   }

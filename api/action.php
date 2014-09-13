@@ -18,13 +18,18 @@
   require_once(getcwd().'/classes/loader.php');
 
   if(isset($_SESSION['game-data'])) {
+    error_log("session is already set");
     // We store the game data in a properly named GAME_DATA variable.
     $GAME_DATA = json_decode($_SESSION['game-data'], true);
+    error_log("getting game data from session: " . $GAME_DATA['current-event']);
+
 
     // Handles, as creatively described, the action.
     $actionHandler = new ActionHandler($GAME_DATA, $_GET['string']);
     $GAME_DATA = $actionHandler->handleAction();
+    error_log("getting game data from action handler: " . $GAME_DATA['current-event']);
   } else {
+    error_log("session is getting set");
     // This should be where the game data is first compiled and stored (as JSON)
     $GAME_DATA = array(
       'session' => 'XXX',
@@ -52,10 +57,8 @@
     // Handles, as creatively described, the action.
     $actionHandler = new ActionHandler($GAME_DATA, $_GET['string']);
     $GAME_DATA = $actionHandler->handleAction();
-
-    $_SESSION['game-data'] = json_encode($GAME_DATA);
   }
-
+  $_SESSION['game-data'] = json_encode($GAME_DATA);
   // This is some return data we need on every request, so I just tack it on
   // at the end.
   $RETURN['session']      = $GAME_DATA['session'];
@@ -68,5 +71,6 @@
   $RETURN['turnCount']    = $GAME_DATA['turn-count'];
 
   header('Content-Type: application/json');
+  error_log("returning event: " . $GAME_DATA['current-event']);
   echo json_encode($RETURN);
 ?>
