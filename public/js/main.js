@@ -8,7 +8,7 @@ var connected = false;
 var typeDelay = 20;
 
 var inputStr = "";
-var inputPrompt = "# ";
+var inputPrompt = "<span class='cursor'>#</span> ";
 var inputEnabled = false;
 
 var line = "-----";
@@ -22,11 +22,17 @@ var apiEndpoint = "/api/action.php";
 $( document ).ready(function(){
 	//setting the options for the typer
     console.log( "ready!" );
-    echo("Welcome to Rhizome! Press '1' to start", true);
+    echo("Welcome to [i][c1]Rhizome[/c1][/i]!\n Press '1' to start", true);
     //the events start here
     $(document).on('keydown', function(e){
     	handleKeys(e.keyCode, e);
     });
+    setInterval(function (){
+      if (inputStr.length == 0){
+        $('.cursor').fadeOut(500);
+        $('.cursor').fadeIn(500);
+      }
+    }, 500);
 });
 
 function handleKeys (code, e){
@@ -103,12 +109,14 @@ function echo (text, wipe){
   inputEnabled = false;
   //this is a multi-line echo
   while (text.length >= 1){
-    append(text.shift() + "<br>");
+    addText = text.shift().split('\n').join('<br>');
+    append(addText + "<br>");
   }
   append("<br>" + inputPrompt);
 }
 
 function append (text){
+  text = parseChars(text);
 	$(terminal).append(text);
   inputEnabled = true;
 }
@@ -121,6 +129,14 @@ function input(text){
   }else{
     append("*");
   }
+}
+
+function parseChars(text){
+  //check for b, i, u
+  text = text.replace(/\[([biu])\](.+?)\[\/\1\]/g, '<$1>$2</$1>');
+  //do color replacing
+  text = text.replace(/\[([c][\d])\](.+?)\[\/\1\]/g, '<span class=$1>$2</span>');
+  return text;
 }
 
 function badCommand(){
