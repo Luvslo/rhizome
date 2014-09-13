@@ -110,12 +110,12 @@ function clear (){
 
 function echo (text, wipe){
   if (wipe == true){clear();}
-  if (connected == true){
-    console.log("connected is true, drawing hud");
-    append(drawHud());
-  }
   if ($.isArray(text) === false){
     text = [text.toString()];
+  }
+  if (connected == true){
+    hud = drawHud();
+    text = hud.concat(text);
   }
   inputEnabled = false;
   //this is a multi-line echo
@@ -187,7 +187,7 @@ function handleLogin(input){
       break;
     case 2:
       controlCode = input;
-      
+
       $.ajax({
         url: apiEndpoint,
         data: "string=login"
@@ -204,19 +204,19 @@ function handleLogin(input){
           loginStep = 0;
         }
       });
-      
+
       //perform connecting code here
-      
+
       //"connect" for now
-      
       break;
   }
 }
 
 function drawHud(){
-  hud = line;
-  hud += "\nYou are currently on turn " + gameData['turnCount'];
-  hud += "\n" + line + "\n";
-  console.log("drawing hud: " + hud);
+  hud = [];
+  hud.push(line);
+  hud.push("You are currently on turn " + gameData['turnCount']);
+  hud.push(line)
+  hud.push(" ");
   return hud;
 }
