@@ -68,7 +68,7 @@
   $RETURN['prompt']       = $GAME_DATA['prompt'];
   $RETURN['choices']      = $GAME_DATA['choices'];
   $RETURN['inventory']    = $GAME_DATA['inventory'];
-  $RETURN['turnCount']    = $GAME_DATA['turn-count'];
+  $RETURN['turnCount']    = $GAME_DATA['turn-count']++;
 
   header('Content-Type: application/json');
   error_log("returning event: " . $GAME_DATA['current-event']);

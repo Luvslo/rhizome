@@ -1,3 +1,5 @@
+var gameData = null;
+
 var loginStep = 0;
 
 var characterName = null;
@@ -79,11 +81,16 @@ function sendInput(text){
         data: "string=" + text
       })
       .done(function(reply) {
-        echoPromptChoices(reply.prompt, reply.choices, true)
+        getReply(reply);
       });
     }
   }
 	inputStr = '';
+}
+
+function getReply (reply){
+  gameData = reply;
+  echoPromptChoices(reply.prompt, reply.choices, true);
 }
 
 function erase (chars){
@@ -102,10 +109,14 @@ function clear (){
 }
 
 function echo (text, wipe){
+  if (wipe == true){clear();}
+  if (connected == true){
+    console.log("connected is true, drawing hud");
+    append(drawHud());
+  }
   if ($.isArray(text) === false){
     text = [text.toString()];
   }
-  if (wipe == true){clear();}
   inputEnabled = false;
   //this is a multi-line echo
   while (text.length >= 1){
@@ -186,7 +197,7 @@ function handleLogin(input){
           inputType = "text";
           session = reply.session;
           connected = true;
-          echoPromptChoices(reply.prompt, reply.choices, true)
+          getReply(reply);
           loginStep++;
         }else{
           echo("I'm sorry, something went wrong, let's try this again.  Press '1' to get started.", false);
@@ -202,10 +213,10 @@ function handleLogin(input){
   }
 }
 
-function drawBattle(json){
-  clear();
-  battleArr = [];
-  append("You are fighting a <u>Fierce Rabbit Monster</u><br>");
-  append("-----<br>");
-  append("HP <b>100/100</b> - MP <b>100/100</b>");
+function drawHud(){
+  hud = line;
+  hud += "\nYou are currently on turn " + gameData['turnCount'];
+  hud += "\n" + line + "\n";
+  console.log("drawing hud: " + hud);
+  return hud;
 }
