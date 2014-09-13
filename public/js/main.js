@@ -24,7 +24,7 @@ var apiEndpoint = "/api/action.php";
 $( document ).ready(function(){
 	//setting the options for the typer
     console.log( "ready!" );
-    echo("Welcome to [i][c1]Rhizome[/c1][/i]!\n Press '1' to start", true);
+    echo("Welcome to [i][c1]Rhizome[/c1][/i]!\n Press [q]1[/q] to start", true);
     //the events start here
     $(document).on('keydown', function(e){
     	handleKeys(e.keyCode, e);
@@ -144,7 +144,7 @@ function input(text){
 
 function parseChars(text){
   //check for b, i, u
-  text = text.replace(/\[([biu])\](.+?)\[\/\1\]/g, '<$1>$2</$1>');
+  text = text.replace(/\[([biuq])\](.+?)\[\/\1\]/g, '<$1>$2</$1>');
   //do color replacing
   text = text.replace(/\[([c][\d])\](.+?)\[\/\1\]/g, '<span class=$1>$2</span>');
   return text;
@@ -219,4 +219,9 @@ function drawHud(){
   hud.push(line)
   hud.push(" ");
   return hud;
+}
+
+function drawHealthBar(currentHP, maxHP){
+  bar = [];
+  
 }

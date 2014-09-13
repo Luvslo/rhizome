@@ -37,9 +37,22 @@ When sending data to the client, you can format it in a number of ways using a B
 [b]Bold text goes here[/b]
 [i]Italic text goes here[/i]
 [u]Underlined text goes here[/u]
+[q]Quoted text goes here[/q]
 
 You can also set colors with the same type of format.
 
 [c1]This will be red text[/c1]
 
-You can use 1-7 to set colors according to ANSI escape code colors. 
+You can use 1-7 to set colors according to ANSI escape code colors.
+
+1 - Red
+2 - Green
+3 - Yellow
+4 - Blue
+5 - Magenta
+6 - Cyan
+7 - Gray
+
+New lines can be sent in a number of difference ways.  The recommended way is to use a "\n" to denote
+a new line (which will be turned into "<br>" on the client).  You also have the option of sending back
+your prompt as an array.  Each element will be turned into its own line.
