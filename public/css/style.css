@@ -13,6 +13,31 @@ body {
 	font-size:.9em;
 }
 
+.cursor {
+  -webkit-animation: 1s blink step-end infinite;
+	animation: 1s blink step-end infinite;
+}
+
+@keyframes "blink" {
+	from,to {
+	color: transparent;
+}
+ 50% {
+    color: white;
+ }
+
+}
+
+@-webkit-keyframes "blink" {
+	from,to {
+	color: transparent;
+}
+ 50% {
+   color: white;
+ }
+
+}
+
 h1 {
 	margin-top: 5%;
 }

@@ -10,8 +10,8 @@ var connected = false;
 var typeDelay = 20;
 
 var inputStr = "";
-var inputPrompt = "<span class='cursor'>#</span> ";
-var inputEnabled = false;
+var inputPrompt = "<span id='cursor' class='cursor'>#</span> ";
+var inputEnabled = true;
 
 var line = "-----";
 
@@ -29,12 +29,19 @@ $( document ).ready(function(){
     $(document).on('keydown', function(e){
     	handleKeys(e.keyCode, e);
     });
-    setInterval(function (){
-      if (inputStr.length == 0){
-        $('.cursor').fadeOut(500);
-        $('.cursor').fadeIn(500);
-      }
-    }, 500);
+    $(document).on('rhizome.inputDisabled', function(e){
+      inputEnabled = false;
+    });
+    $(document).on('rhizome.inputEnabled', function(e){
+      inputEnabled = true;
+    });
+    $(document).on('rhizome.noInput', function(e){
+      console.log("noinput triggered");
+      $("#cursor").addClass("cursor");
+    });
+    $(document).on('rhizome.input', function(e){
+      $("#cursor").removeClass("cursor");
+    });
 });
 
 function handleKeys (code, e){
@@ -86,6 +93,7 @@ function sendInput(text){
     }
   }
 	inputStr = '';
+  $(document).trigger("rhizome.noInput");
 }
 
 function getReply (reply){
@@ -102,6 +110,7 @@ function erase (chars){
 	}else{
 		//maybe blink? who knows
 	}
+  if (inputStr.length <= 0){$(document).trigger("rhizome.noInput");}
 }
 
 function clear (){
@@ -117,7 +126,7 @@ function echo (text, wipe){
     hud = drawHud();
     text = hud.concat(text);
   }
-  inputEnabled = false;
+  $(document).trigger("rhizome.inputDisabled");
   //this is a multi-line echo
   while (text.length >= 1){
     addText = text.shift().split('\n').join('<br>');
@@ -129,11 +138,12 @@ function echo (text, wipe){
 function append (text){
   text = parseChars(text);
 	$(terminal).append(text);
-  inputEnabled = true;
+  $(document).trigger("rhizome.inputEnabled");
 }
 
 function input(text){
 	inputStr += text;
+  $(document).trigger("rhizome.input");
   //for password entry
   if (inputType == "text"){
     append(text);
