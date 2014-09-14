@@ -218,10 +218,32 @@ function drawHud(){
   hud.push("You are currently on turn " + gameData['turnCount']);
   hud.push(line)
   hud.push(" ");
+  hud = hud.concat(drawHealthBar(100,100));
   return hud;
 }
 
 function drawHealthBar(currentHP, maxHP){
+  barLength = 20;
   bar = [];
-  
+  healthPerc = currentHP / maxHP;
+  playerBar = Math.floor(barLength * healthPerc);
+  if (healthPerc >= .75){
+    //green (c2)
+    color = "c2";
+  }else if (healthPerc >= .50){
+    //yellow (c3)
+    color = "c3";
+  }else if (healthPerc >= .25){
+    //orange (c8)
+    color = "c8";
+  }else{
+    //red (c1)
+    color = "c1";
+  }
+  bar.push("Player Health: " + currentHP + "/" + maxHP);
+  bar.push("[" + color + "]" + Array(barLength + 1).join("-") + "[/" + color + "]");
+  bar.push(Array((barLength - playerBar) + 1).join("&nbsp;") + "[" + color + "]" + Array(playerBar + 1).join("|") + "[/" + color + "]");
+  bar.push("[" + color + "]" + Array(barLength + 1).join("-") + "[/" + color + "]");
+  bar.push(" ");
+  return bar;
 }

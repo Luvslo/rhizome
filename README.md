@@ -52,6 +52,7 @@ You can use 1-7 to set colors according to ANSI escape code colors.
 5 - Magenta
 6 - Cyan
 7 - Gray
+8 - Orange
 
 New lines can be sent in a number of difference ways.  The recommended way is to use a "\n" to denote
 a new line (which will be turned into "<br>" on the client).  You also have the option of sending back
